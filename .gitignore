@@ -1,0 +1,42 @@
+# ==========================================================================
+# LAXEE
+# ==========================================================================
+
+# ---- Never commit -------------------------------------------------------
+# config.js holds your Supabase URL and anon key. The anon key is public by
+# design and safe in a browser, but keeping it out of the repository means
+# the same code can point at a test project and a live one without edits.
+#
+# If you would rather keep it committed for simplicity, delete the next line.
+# It is not a security hole either way — RLS is what protects your data.
+assets/js/config.js
+
+# ---- OS noise -----------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+
+# ---- Editors ------------------------------------------------------------
+.vscode/
+.idea/
+*.sublime-*
+
+# ---- Local tooling ------------------------------------------------------
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+
+# ---- Working files ------------------------------------------------------
+# Raw photography before it is cropped and compressed. These are large and
+# do not belong in git history; keep the originals in cloud storage.
+assets/img/raw/
+*.psd
+*.ai
+*.sketch
+
+# ---- Build output -------------------------------------------------------
+dist/
+*.zip
