@@ -1,0 +1,323 @@
+/* ==========================================================================
+   LAXEE — Layout: shell, header, footer, sections
+   ========================================================================== */
+
+.shell {
+  width: 100%;
+  max-width: var(--measure);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.shell--narrow { max-width: 880px; }
+.shell--wide   { max-width: 1560px; }
+
+/* ---- Section rhythm ------------------------------------------------------
+   One class owns vertical space between bands. Modifiers adjust it. Nothing
+   else in the codebase sets a top or bottom margin on a section, which is
+   how the page keeps an even beat.                                         */
+
+.band            { padding-block: var(--s-9); }
+.band--tight     { padding-block: var(--s-7); }
+.band--loose     { padding-block: var(--s-10); }
+.band--flush-top { padding-top: 0; }
+.band--linen     { background: var(--linen); }
+.band--parchment { background: var(--parchment); }
+
+@media (max-width: 720px) {
+  .band        { padding-block: var(--s-7); }
+  .band--loose { padding-block: var(--s-8); }
+}
+
+/* ---- Section heading ----------------------------------------------------- */
+
+.band-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s-5);
+  margin-bottom: var(--s-6);
+}
+
+.band-head__title { display: grid; gap: var(--s-2); }
+
+.band-head--centred {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* ---- SIGNATURE: the ribbon rule ------------------------------------------
+   A gift is defined by what ties it. This divider is a hairline with a small
+   knot at centre — a ribbon seen edge-on. It marks section breaks instead of
+   a plain border, and it is the only ornament on the page.                 */
+
+.ribbon {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  width: 100%;
+  color: var(--gold);
+}
+
+.ribbon::before,
+.ribbon::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rule-strong) 22%, var(--rule-strong) 78%, transparent);
+}
+
+.ribbon__knot {
+  width: 7px;
+  height: 7px;
+  flex: none;
+  background: currentColor;
+  transform: rotate(45deg);
+}
+
+/* ---- Header --------------------------------------------------------------- */
+
+.masthead {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  background: rgba(241, 236, 227, .88);
+  backdrop-filter: saturate(150%) blur(14px);
+  -webkit-backdrop-filter: saturate(150%) blur(14px);
+  border-bottom: 1px solid var(--rule);
+}
+
+.masthead__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--s-6);
+  height: var(--header-h);
+}
+
+.brand {
+  display: grid;
+  gap: 3px;
+  flex: none;
+  padding-block: var(--s-2);
+}
+
+.brand__name {
+  font-size: 21px;
+}
+
+.brand__tag {
+  font-family: var(--font-display);
+  font-size: 8.5px;
+  font-weight: 400;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--stone);
+  text-indent: 0.26em;
+}
+
+/* Navigation */
+
+.nav {
+  display: none;
+  align-items: center;
+  gap: var(--s-6);
+  margin-inline: auto;
+}
+
+@media (min-width: 1024px) { .nav { display: flex; } }
+
+.nav__link {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: var(--step--1);
+  font-weight: 400;
+  letter-spacing: var(--track-nav);
+  text-transform: uppercase;
+  color: var(--ink);
+  padding-block: var(--s-2);
+  transition: color var(--t-fast) var(--ease);
+}
+
+/* The underline is a ribbon drawing itself, not a block appearing. */
+.nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--t-base) var(--ease-out);
+}
+
+.nav__link:hover { color: var(--gold-deep); }
+.nav__link:hover::after,
+.nav__link[aria-current="page"]::after { transform: scaleX(1); }
+
+/* Header actions */
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+  margin-left: auto;
+  flex: none;
+}
+
+.icon-btn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  color: var(--ink);
+  border-radius: var(--radius-1);
+  transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+.icon-btn:hover { background: var(--gold-wash); color: var(--gold-deep); }
+
+.icon-btn__count {
+  position: absolute;
+  top: 5px; right: 3px;
+  min-width: 17px; height: 17px;
+  padding-inline: 4px;
+  background: var(--gold);
+  color: var(--porcelain);
+  border-radius: 9px;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 17px;
+  text-align: center;
+}
+
+.icon-btn--menu { display: grid; }
+@media (min-width: 1024px) { .icon-btn--menu { display: none; } }
+
+/* ---- Mobile drawer -------------------------------------------------------- */
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-drawer);
+  background: rgba(30, 26, 22, .38);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--t-base) var(--ease);
+}
+.scrim.is-open { opacity: 1; pointer-events: auto; }
+
+.drawer {
+  position: fixed;
+  inset-block: 0;
+  right: 0;
+  z-index: calc(var(--z-drawer) + 1);
+  width: min(340px, 86vw);
+  background: var(--porcelain);
+  border-left: 1px solid var(--rule);
+  padding: var(--s-6) var(--s-6) var(--s-8);
+  transform: translateX(100%);
+  transition: transform var(--t-base) var(--ease-out);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+}
+.drawer.is-open { transform: translateX(0); }
+
+.drawer__link {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 300;
+  letter-spacing: var(--track-nav);
+  text-transform: uppercase;
+  color: var(--ink);
+  padding-block: var(--s-3);
+  border-bottom: 1px solid var(--rule);
+  transition: color var(--t-fast) var(--ease), padding-left var(--t-base) var(--ease);
+}
+.drawer__link:hover { color: var(--gold); padding-left: var(--s-2); }
+
+/* ---- Footer ---------------------------------------------------------------- */
+
+.colophon {
+  background: var(--linen);
+  border-top: 1px solid var(--rule);
+  padding-block: var(--s-8) var(--s-6);
+  margin-top: var(--s-9);
+}
+
+.colophon__grid {
+  display: grid;
+  gap: var(--s-7);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 760px) {
+  .colophon__grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: var(--s-6); }
+}
+
+.colophon__head {
+  font-family: var(--font-display);
+  font-size: var(--step--2);
+  font-weight: 600;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: var(--s-4);
+}
+
+.colophon__list { display: grid; gap: var(--s-3); }
+
+.colophon__link {
+  font-size: var(--step--1);
+  color: var(--graphite);
+  transition: color var(--t-fast) var(--ease);
+}
+.colophon__link:hover { color: var(--gold-deep); }
+
+.colophon__base {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  margin-top: var(--s-7);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--rule);
+}
+
+.social { display: flex; gap: var(--s-2); }
+
+.social__link {
+  display: grid;
+  place-items: center;
+  width: 34px; height: 34px;
+  border: 1px solid var(--rule-strong);
+  color: var(--graphite);
+  transition: border-color var(--t-fast) var(--ease),
+              color var(--t-fast) var(--ease),
+              background var(--t-fast) var(--ease);
+}
+.social__link:hover {
+  border-color: var(--gold);
+  color: var(--gold-deep);
+  background: var(--gold-wash);
+}
+
+/* ---- Reveal on scroll ------------------------------------------------------
+   Applied by js/ui.js. Content is visible without JS; the class only adds
+   the entrance.                                                             */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity var(--t-slow) var(--ease-out),
+              transform var(--t-slow) var(--ease-out);
+}
+.reveal.is-in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; }
+}

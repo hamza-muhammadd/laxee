@@ -1,0 +1,570 @@
+/* ==========================================================================
+   LAXEE — Components
+   ========================================================================== */
+
+/* ---- Buttons -------------------------------------------------------------
+   Square, letterspaced, quiet. A luxury shop does not shout at you.        */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  min-height: 46px;
+  padding: 0 var(--s-6);
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--step--1);
+  font-weight: 500;
+  letter-spacing: var(--track-nav);
+  text-transform: uppercase;
+  border-radius: var(--radius-0);
+  transition: background var(--t-base) var(--ease),
+              color var(--t-base) var(--ease),
+              border-color var(--t-base) var(--ease);
+}
+
+.btn:hover:not(:disabled) { background: var(--ink); color: var(--porcelain); }
+.btn:active:not(:disabled) { transform: translateY(1px); }
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+
+.btn--primary {
+  background: var(--ink);
+  color: var(--porcelain);
+}
+.btn--primary:hover:not(:disabled) {
+  background: var(--gold-deep);
+  border-color: var(--gold-deep);
+}
+
+.btn--gold {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--porcelain);
+}
+.btn--gold:hover:not(:disabled) {
+  background: var(--gold-deep);
+  border-color: var(--gold-deep);
+  color: var(--porcelain);
+}
+
+.btn--quiet {
+  border-color: transparent;
+  padding-inline: var(--s-3);
+  color: var(--gold-deep);
+}
+.btn--quiet:hover:not(:disabled) {
+  background: var(--gold-wash);
+  color: var(--gold-deep);
+}
+
+.btn--block { width: 100%; }
+.btn--sm { min-height: 38px; padding-inline: var(--s-4); font-size: var(--step--2); }
+.btn--lg { min-height: 54px; padding-inline: var(--s-7); }
+
+/* Text link with the same drawing underline as the nav. */
+.link-rule {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: var(--step--1);
+  letter-spacing: var(--track-nav);
+  text-transform: uppercase;
+  color: var(--gold-deep);
+  padding-bottom: 3px;
+}
+.link-rule::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(1);
+  transform-origin: right;
+  transition: transform var(--t-base) var(--ease-out);
+}
+.link-rule:hover::after { transform: scaleX(0); }
+
+/* ---- Hero ------------------------------------------------------------------
+   Split: the object on one side, the proposition on the other. The image is
+   the hero, not a gradient.                                                */
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  background: var(--linen);
+  border-bottom: 1px solid var(--rule);
+}
+
+@media (min-width: 900px) {
+  .hero { grid-template-columns: 1.05fr 1fr; min-height: 76vh; }
+}
+
+.hero__figure {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--oyster);
+  overflow: hidden;
+}
+
+@media (min-width: 900px) { .hero__figure { aspect-ratio: auto; } }
+
+.hero__figure img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  /* A slow drift gives the still life a sense of being lit, not pasted. */
+  animation: drift 24s var(--ease) infinite alternate;
+}
+
+@keyframes drift {
+  from { transform: scale(1.02) translate3d(0, 0, 0); }
+  to   { transform: scale(1.08) translate3d(-1.5%, -1%, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__figure img { animation: none; transform: none; }
+}
+
+.hero__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--s-5);
+  padding: var(--s-8) var(--gutter);
+}
+
+@media (min-width: 900px) {
+  .hero__body { padding-inline: clamp(var(--s-7), 6vw, var(--s-9)); }
+}
+
+.hero__title {
+  font-size: var(--step-5);
+  max-width: 14ch;
+}
+
+/* ---- Collection tiles ------------------------------------------------------
+   Dark photography with the foil label sitting on it, exactly as the name
+   sits on the card.                                                        */
+
+.tiles {
+  display: grid;
+  gap: var(--s-4);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px)  { .tiles { grid-template-columns: repeat(3, 1fr); gap: var(--s-5); } }
+
+.tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--ink);
+  text-align: left;
+  width: 100%;
+  padding: 0;
+}
+
+.tile__img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: .82;
+  transition: transform var(--t-slow) var(--ease-out), opacity var(--t-base) var(--ease);
+}
+
+.tile:hover .tile__img { transform: scale(1.05); opacity: .68; }
+
+/* A wash at the foot so the label always has ground to stand on. */
+.tile::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 62%;
+  background: linear-gradient(to top, rgba(20, 17, 14, .78), transparent);
+  pointer-events: none;
+}
+
+.tile__label {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 1;
+  padding: var(--s-6) var(--s-5);
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 300;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.tile__sub {
+  display: block;
+  margin-top: var(--s-2);
+  font-size: var(--step--2);
+  letter-spacing: var(--track-nav);
+  color: rgba(255, 255, 255, .72);
+  -webkit-text-fill-color: rgba(255, 255, 255, .72);
+}
+
+/* ---- Product card ----------------------------------------------------------- */
+
+.grid-products {
+  display: grid;
+  gap: var(--s-5) var(--s-4);
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 720px)  { .grid-products { grid-template-columns: repeat(3, 1fr); gap: var(--s-7) var(--s-5); } }
+@media (min-width: 1100px) { .grid-products { grid-template-columns: repeat(4, 1fr); } }
+
+.product {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  width: 100%;
+  padding: 0;
+  background: none;
+}
+
+.product__frame {
+  position: relative;
+  aspect-ratio: 1;
+  background: var(--parchment);
+  overflow: hidden;
+  margin-bottom: var(--s-4);
+}
+
+.product__img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform var(--t-slow) var(--ease-out);
+}
+.product:hover .product__img { transform: scale(1.04); }
+
+.product__empty {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  color: var(--oyster);
+}
+
+.product__flag {
+  position: absolute;
+  top: var(--s-3); left: var(--s-3);
+  padding: 4px var(--s-3);
+  background: var(--porcelain);
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.product__flag--sold { background: var(--ink); color: var(--porcelain); }
+.product__flag--gold { background: var(--gold); color: var(--porcelain); }
+
+.product__name {
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product__why {
+  margin-top: var(--s-2);
+  font-size: var(--step--1);
+  font-style: italic;
+  color: var(--gold-deep);
+  line-height: 1.45;
+}
+
+.product__foot {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  margin-top: var(--s-3);
+}
+
+.price {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 500;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.price--was {
+  font-size: var(--step--1);
+  font-weight: 400;
+  color: var(--whisper);
+  text-decoration: line-through;
+}
+
+/* ---- Testimonial ------------------------------------------------------------ */
+
+.praise {
+  display: grid;
+  gap: var(--s-5);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 860px) { .praise { grid-template-columns: repeat(3, 1fr); gap: var(--s-6); } }
+
+.praise__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  padding: var(--s-6);
+  background: var(--porcelain);
+  border: 1px solid var(--rule);
+}
+
+.praise__quote {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 300;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.praise__who {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: auto;
+  font-size: var(--step--1);
+  color: var(--stone);
+}
+
+.praise__initial {
+  display: grid;
+  place-items: center;
+  width: 32px; height: 32px;
+  border: 1px solid var(--gold);
+  color: var(--gold-deep);
+  font-family: var(--font-display);
+  font-size: var(--step--1);
+  font-weight: 500;
+  flex: none;
+}
+
+/* ---- Journal ----------------------------------------------------------------- */
+
+.journal {
+  display: grid;
+  gap: var(--s-6);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 760px) { .journal { grid-template-columns: repeat(2, 1fr); } }
+
+.journal__item { display: grid; gap: var(--s-4); }
+
+.journal__frame {
+  aspect-ratio: 16 / 10;
+  background: var(--oyster);
+  overflow: hidden;
+}
+.journal__frame img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform var(--t-slow) var(--ease-out);
+}
+.journal__item:hover .journal__frame img { transform: scale(1.03); }
+
+/* ---- Occasion rail ------------------------------------------------------------ */
+
+.rail {
+  display: flex;
+  gap: var(--s-4);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: var(--s-3);
+  scrollbar-width: none;
+}
+.rail::-webkit-scrollbar { display: none; }
+
+.occasion {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  width: 190px;
+  padding: var(--s-5);
+  background: var(--porcelain);
+  border: 1px solid var(--rule);
+  text-align: left;
+  transition: border-color var(--t-base) var(--ease), box-shadow var(--t-base) var(--ease);
+}
+.occasion:hover { border-color: var(--gold); box-shadow: var(--shade-2); }
+
+.occasion__count {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  font-weight: 200;
+  color: var(--gold);
+  line-height: 1;
+}
+.occasion__unit {
+  font-size: var(--step--2);
+  letter-spacing: var(--track-nav);
+  text-transform: uppercase;
+  color: var(--stone);
+}
+.occasion__name {
+  margin-top: var(--s-4);
+  font-family: var(--font-display);
+  font-size: var(--step-0);
+  font-weight: 500;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+/* ---- Forms -------------------------------------------------------------------- */
+
+.field { display: grid; gap: var(--s-2); }
+
+.field__label {
+  font-family: var(--font-display);
+  font-size: var(--step--2);
+  font-weight: 500;
+  letter-spacing: var(--track-nav);
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.input {
+  width: 100%;
+  min-height: 46px;
+  padding: var(--s-3) var(--s-4);
+  background: var(--porcelain);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius-0);
+  font-size: var(--step-0);
+  color: var(--ink);
+  transition: border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+}
+.input::placeholder { color: var(--whisper); }
+.input:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-wash);
+}
+
+textarea.input { min-height: 96px; resize: vertical; line-height: 1.55; }
+
+.field__hint { font-size: var(--step--2); color: var(--stone); }
+.field__error { font-size: var(--step--2); color: var(--rust); }
+
+/* ---- Search in header ------------------------------------------------------ */
+
+.search {
+  position: relative;
+  display: none;
+  flex: 0 1 260px;
+}
+@media (min-width: 1160px) { .search { display: block; } }
+
+.search__input {
+  width: 100%;
+  min-height: 38px;
+  padding: 0 var(--s-4) 0 38px;
+  background: rgba(255, 255, 255, .6);
+  border: 1px solid transparent;
+  font-size: var(--step--1);
+  color: var(--ink);
+  transition: border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
+}
+.search__input::placeholder { color: var(--stone); }
+.search__input:focus {
+  outline: none;
+  background: var(--porcelain);
+  border-color: var(--gold);
+}
+
+.search__icon {
+  position: absolute;
+  left: 12px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--stone);
+  pointer-events: none;
+}
+
+/* ---- Empty and skeleton ------------------------------------------------------ */
+
+.empty {
+  display: grid;
+  gap: var(--s-4);
+  justify-items: center;
+  text-align: center;
+  padding: var(--s-9) var(--s-5);
+  max-width: 46ch;
+  margin-inline: auto;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--parchment) 25%, var(--linen) 50%, var(--parchment) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+@keyframes shimmer { to { background-position: -200% 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
+}
+
+/* ---- Toast --------------------------------------------------------------------- */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: var(--s-6);
+  z-index: var(--z-toast);
+  transform: translate(-50%, 24px);
+  min-width: 260px;
+  max-width: calc(100vw - var(--s-6) * 2);
+  padding: var(--s-4) var(--s-5);
+  background: var(--ink);
+  color: var(--porcelain);
+  border-left: 2px solid var(--gold);
+  font-size: var(--step--1);
+  box-shadow: var(--shade-3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--t-base) var(--ease), transform var(--t-base) var(--ease-out);
+}
+.toast.is-shown { opacity: 1; transform: translate(-50%, 0); }
+.toast--error { border-left-color: var(--rust); }
+
+/* ---- Note card ------------------------------------------------------------------
+   Where a gift message is shown back to the customer. The left edge is the
+   ribbon; the card is the card.                                              */
+
+.note {
+  position: relative;
+  padding: var(--s-5) var(--s-5) var(--s-5) var(--s-6);
+  background: var(--parchment);
+  border: 1px solid var(--rule);
+}
+.note::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--gold-lit), var(--gold), var(--gold-deep));
+}
+.note__text {
+  font-family: var(--font-display);
+  font-size: var(--step-0);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ink);
+  line-height: 1.6;
+}
