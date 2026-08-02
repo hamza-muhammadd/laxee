@@ -17,10 +17,10 @@
 export const CONFIG = {
 
   // e.g. "https://abcdefghijklm.supabase.co"   — no trailing slash
-  supabaseUrl: "",
+  supabaseUrl: "https://laxeestore.vercel.app/**",
 
   // The key labelled "anon public" (newer projects call it "publishable")
-  supabaseAnonKey: "",
+  supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxheW1pemxmaHlsZWZnc3p2dHhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU0ODkwMDksImV4cCI6MjEwMTA2NTAwOX0.zkr4wXzK1C_Ql8PWQT9TeaXE-vO9ATTVir1XXnzHrdI",
 
   // ---- Brand ------------------------------------------------------------
   brand: {
